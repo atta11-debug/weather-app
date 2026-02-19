@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body {% if exception_occurred %}
+    style="background-image: url('https://images.pexels.com/photos/3008509/pexels-photo-3008509.jpeg?auto=compress&cs=tinysrgb&w=1600'); background-size: cover;"
+    {% elif image_url %} style="background-image: url('{{ image_url }}'); background-size: cover;" {% endif %}>
+
+    <div class="container">
+        <h1>Weather App</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter city name">
+            <button type="submit">Search</button>
+        </form>
+        <div class="weather">
+            <div class="left">
+                <h2>{{temp}} °C</h2>
+                <h3>{{city}}</h3>
+            </div>
+            <div class="right">
+                <div class="icon">
+                    <p><img src="https://openweathermap.org/img/wn/{{ icon }}.png" width="100p"></p>
+                </div>
+                <div class="conditon">
+                    <p>{{description}}</p>
+                    <p>{{day}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {% if exception_occurred %}
+    <script>
+        window.onload = function () {
+            alert("Error fetching weather data for '{{city}}'.Showing weather data for 'Jhang' instead.");
+        }
+    </script>
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+    <!-- <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+        <input type="text" name="city" placeholder="Enter city name">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if temp != "N/A" %}
+    <h2>Temperature: {{ temp }} °C</h2>
+    <h3>City: {{ city }}</h3>
+    <p>Description: {{ description }}</p>
+    <p>
+        <img src="https://openweathermap.org/img/wn/{{ icon }}.png" width="100">
+    </p>
+    {% else %}
+    <p>City not found or API error!</p>
+    {% endif %}
+
+    <p>Date: {{ day }}</p> -->
+</body>
+
+</html>
